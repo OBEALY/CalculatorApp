@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace taska1
 {
-    internal static class InputHandler
+    public static class InputHandler
     {
         private static readonly CultureInfo[] AcceptedCultures = new[]
         {
@@ -59,17 +59,31 @@ namespace taska1
 
             string normalized = input.Trim();
 
+
             foreach (var culture in AcceptedCultures)
             {
                 if (double.TryParse(normalized, NumberStyles.Float | NumberStyles.AllowThousands, culture, out value))
                     return true;
             }
 
-            if (double.TryParse(normalized.Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out value))
-                return true;
+            string[] variations = {
+                normalized.Replace(',', '.'),  
+                normalized.Replace('.', ',')  
+            };
 
-            if (double.TryParse(normalized.Replace('.', ','), NumberStyles.Float, new CultureInfo("ru-RU"), out value))
-                return true;
+            CultureInfo[] parseCultures = {
+                CultureInfo.InvariantCulture,
+                new CultureInfo("ru-RU")
+            };
+
+            foreach (var variation in variations)
+            {
+                foreach (var culture in parseCultures)
+                {
+                    if (double.TryParse(variation, NumberStyles.Float, culture, out value))
+                        return true;
+                }
+            }
 
             return false;
         }

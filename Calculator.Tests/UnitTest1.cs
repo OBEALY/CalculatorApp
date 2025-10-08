@@ -9,41 +9,73 @@ namespace taska1.Tests
         [InlineData(2, 3, 5)]
         [InlineData(-1, 1, 0)]
         [InlineData(0, 0, 0)]
+        [InlineData(2.5, 3.1, 5.6)]
         public void Add_Works(double a, double b, double expected)
         {
-            Assert.Equal(expected, taska1.Calculator.Add(a, b));
+
+
+            // Act
+            double actual = Calculator.Add(a, b);
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
         [InlineData(3, 2, 1)]
         [InlineData(-1, -1, 0)]
         [InlineData(0, 5, -5)]
+        [InlineData(5.5, 2.2, 3.3)]
         public void Subtract_Works(double a, double b, double expected)
         {
-            Assert.Equal(expected, taska1.Calculator.Subtract(a, b));
+
+            // Act
+            double actual = Calculator.Subtract(a, b);
+
+            // Assert
+            Assert.Equal(expected, actual, 10); // precision для double
         }
 
         [Theory]
         [InlineData(2, 3, 6)]
         [InlineData(-2, 3, -6)]
         [InlineData(0, 10, 0)]
+        [InlineData(2.5, 4, 10)]
         public void Multiply_Works(double a, double b, double expected)
         {
-            Assert.Equal(expected, taska1.Calculator.Multiply(a, b));
+
+
+            // Act
+            double actual = Calculator.Multiply(a, b);
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Theory]
         [InlineData(6, 3, 2)]
         [InlineData(-6, 3, -2)]
+        [InlineData(5, 2, 2.5)]
         public void Divide_Works(double a, double b, double expected)
         {
-            Assert.Equal(expected, taska1.Calculator.Divide(a, b));
+
+
+            // Act
+            double actual = Calculator.Divide(a, b);
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void Divide_Throws_OnZero()
+        public void Divide_ByZero_ThrowsDivideByZeroException()
         {
-            Assert.Throws<DivideByZeroException>(() => taska1.Calculator.Divide(5, 0));
+            // Arrange
+            double a = 5;
+            double b = 0;
+
+            // Act & Assert
+            Assert.Throws<DivideByZeroException>(() => Calculator.Divide(a, b));
         }
 
         [Theory]
@@ -51,15 +83,28 @@ namespace taska1.Tests
         [InlineData(3, 2, '-', 1)]
         [InlineData(2, 3, '*', 6)]
         [InlineData(6, 3, '/', 2)]
-        public void Calculate_Works(double a, double b, char op, double expected)
+        public void Calculate_ValidOperations_ReturnsCorrectResult(double a, double b, char op, double expected)
         {
-            Assert.Equal(expected, taska1.Calculator.Calculate(a, b, op));
+
+
+            // Act
+            double actual = Calculator.Calculate(a, b, op);
+
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public void Calculate_InvalidOperation_Throws()
+        public void Calculate_InvalidOperation_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => taska1.Calculator.Calculate(1, 2, '^'));
+            // Arrange
+            double a = 1;
+            double b = 2;
+            char invalidOp = '^';
+
+            // Act & Assert
+            var exception = Assert.Throws<ArgumentException>(() => Calculator.Calculate(a, b, invalidOp));
+            Assert.Contains("Invalid operation", exception.Message);
         }
     }
 }

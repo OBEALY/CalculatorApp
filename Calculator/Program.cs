@@ -2,7 +2,7 @@
 
 namespace taska1
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -20,7 +20,7 @@ namespace taska1
             }
         }
 
-        static void RunCalculator()
+        public static void RunCalculator()  
         {
             bool continueCalculations = true;
 
@@ -37,13 +37,9 @@ namespace taska1
                     double result = Calculator.Calculate(number1, number2, operation);
                     DisplayResult(number1, number2, operation, result);
                 }
-                catch (DivideByZeroException dbz)
+                catch (Exception ex) when (ex is DivideByZeroException or ArgumentException)
                 {
-                    DisplayError(dbz.Message);
-                }
-                catch (ArgumentException aex)
-                {
-                    DisplayError(aex.Message);
+                    DisplayError(ex.Message);
                 }
 
                 continueCalculations = AskToContinue();
@@ -53,12 +49,9 @@ namespace taska1
             }
 
             DisplayFarewellMessage();
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
 
-        // Strict validation: loop until Y/Yes or N/No
-        static bool AskToContinue()
+        public static bool AskToContinue()
         {
             while (true)
             {
@@ -82,12 +75,12 @@ namespace taska1
             Console.WriteLine();
         }
 
-        static void DisplayResult(double a, double b, char operation, double result)
+        public static void DisplayResult(double a, double b, char operation, double result)
         {
             Console.WriteLine($"\nResult: {a} {operation} {b} = {result}");
         }
 
-        internal static void DisplayError(string message)
+        public static void DisplayError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Error: {message}");
