@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Xunit;
 
 namespace taska1.Tests
@@ -12,8 +12,6 @@ namespace taska1.Tests
         [InlineData(2.5, 3.1, 5.6)]
         public void Add_Works(double a, double b, double expected)
         {
-
-
             // Act
             double actual = Calculator.Add(a, b);
 
@@ -28,12 +26,11 @@ namespace taska1.Tests
         [InlineData(5.5, 2.2, 3.3)]
         public void Subtract_Works(double a, double b, double expected)
         {
-
             // Act
             double actual = Calculator.Subtract(a, b);
 
             // Assert
-            Assert.Equal(expected, actual, 10); // precision для double
+            Assert.Equal(expected, actual, 10);
         }
 
         [Theory]
@@ -43,8 +40,6 @@ namespace taska1.Tests
         [InlineData(2.5, 4, 10)]
         public void Multiply_Works(double a, double b, double expected)
         {
-
-
             // Act
             double actual = Calculator.Multiply(a, b);
 
@@ -58,8 +53,6 @@ namespace taska1.Tests
         [InlineData(5, 2, 2.5)]
         public void Divide_Works(double a, double b, double expected)
         {
-
-
             // Act
             double actual = Calculator.Divide(a, b);
 
@@ -85,8 +78,6 @@ namespace taska1.Tests
         [InlineData(6, 3, '/', 2)]
         public void Calculate_ValidOperations_ReturnsCorrectResult(double a, double b, char op, double expected)
         {
-
-
             // Act
             double actual = Calculator.Calculate(a, b, op);
 

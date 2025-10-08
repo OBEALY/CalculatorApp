@@ -20,7 +20,7 @@ namespace taska1
             }
         }
 
-        public static void RunCalculator()  
+        public static void RunCalculator()
         {
             bool continueCalculations = true;
 
@@ -51,8 +51,7 @@ namespace taska1
             DisplayFarewellMessage();
         }
 
-        
-        static bool AskToContinue()
+        public static bool AskToContinue()  // ← ДОБАВЛЕНО public
         {
             while (true)
             {
@@ -70,7 +69,7 @@ namespace taska1
             }
         }
 
-        static void DisplayWelcomeMessage()
+        public static void DisplayWelcomeMessage()  // ← ДОБАВЛЕНО public
         {
             Console.WriteLine("=== CALCULATOR ===");
             Console.WriteLine();
@@ -88,7 +87,7 @@ namespace taska1
             Console.ResetColor();
         }
 
-        static void DisplayFarewellMessage()
+        public static void DisplayFarewellMessage()  // ← ДОБАВЛЕНО public
         {
             Console.WriteLine("\nGoodbye!");
         }
