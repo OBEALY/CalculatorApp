@@ -51,7 +51,8 @@ namespace taska1
             DisplayFarewellMessage();
         }
 
-        public static bool AskToContinue()
+        
+        static bool AskToContinue()
         {
             while (true)
             {
