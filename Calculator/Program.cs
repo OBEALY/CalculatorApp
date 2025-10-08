@@ -37,7 +37,7 @@ namespace taska1
                     double result = Calculator.Calculate(number1, number2, operation);
                     DisplayResult(number1, number2, operation, result);
                 }
-                catch (Exception ex) when (ex is DivideByZeroException or ArgumentException)
+                catch (Exception ex)
                 {
                     DisplayError(ex.Message);
                 }
