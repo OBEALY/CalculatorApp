@@ -57,7 +57,7 @@ namespace taska1
             Console.ReadKey();
         }
 
-        // Strict validation: loop until Y/Yes or N/No
+        
         static bool AskToContinue()
         {
             while (true)
