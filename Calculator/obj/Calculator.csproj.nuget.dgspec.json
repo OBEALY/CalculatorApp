@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bymer\\Desktop\\Сalculatorapp\\Calculator\\Calculator.csproj": {}
+    "C:\\Users\\bymer\\source\\repos\\CalculatorApp\\Calculator\\Calculator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bymer\\Desktop\\Сalculatorapp\\Calculator\\Calculator.csproj": {
+    "C:\\Users\\bymer\\source\\repos\\CalculatorApp\\Calculator\\Calculator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bymer\\Desktop\\Сalculatorapp\\Calculator\\Calculator.csproj",
+        "projectUniqueName": "C:\\Users\\bymer\\source\\repos\\CalculatorApp\\Calculator\\Calculator.csproj",
         "projectName": "Calculator",
-        "projectPath": "C:\\Users\\bymer\\Desktop\\Сalculatorapp\\Calculator\\Calculator.csproj",
+        "projectPath": "C:\\Users\\bymer\\source\\repos\\CalculatorApp\\Calculator\\Calculator.csproj",
         "packagesPath": "C:\\Users\\bymer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bymer\\Desktop\\Сalculatorapp\\Calculator\\obj\\",
+        "outputPath": "C:\\Users\\bymer\\source\\repos\\CalculatorApp\\Calculator\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\bymer\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -6,7 +6,18 @@ namespace taska1
     {
         static void Main(string[] args)
         {
-            RunCalculator();
+            try
+            {
+                RunCalculator();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Unhandled error: {ex.Message}");
+                Console.ResetColor();
+                Console.WriteLine("Press any key to exit...");
+                Console.ReadKey();
+            }
         }
 
         static void RunCalculator()
@@ -17,92 +28,56 @@ namespace taska1
             {
                 DisplayWelcomeMessage();
 
-                double number1 = GetValidNumber("Enter first number: ");
-                char operation = GetValidOperation();
-                double number2 = GetValidNumber("Enter second number: ");
+                double number1 = InputHandler.GetValidNumber("Enter first number: ");
+                char operation = InputHandler.GetValidOperation(new[] { '+', '-', '*', '/' });
+                double number2 = InputHandler.GetValidNumber("Enter second number: ");
 
-                if (IsDivisionByZero(operation, number2))
+                try
                 {
-                    DisplayError("Cannot divide by zero!");
-                    continue;
+                    double result = Calculator.Calculate(number1, number2, operation);
+                    DisplayResult(number1, number2, operation, result);
+                }
+                catch (DivideByZeroException dbz)
+                {
+                    DisplayError(dbz.Message);
+                }
+                catch (ArgumentException aex)
+                {
+                    DisplayError(aex.Message);
                 }
 
-                double result = Calculate(number1, number2, operation);
-                DisplayResult(number1, number2, operation, result);
-
                 continueCalculations = AskToContinue();
+
+                if (continueCalculations)
+                    Console.Clear();
             }
 
             DisplayFarewellMessage();
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
 
-        static double Calculate(double a, double b, char operation)
-        {
-            switch (operation)
-            {
-                case '+':
-                    return Add(a, b);
-                case '-':
-                    return Subtract(a, b);
-                case '*':
-                    return Multiply(a, b);
-                case '/':
-                    return Divide(a, b);
-                default:
-                    throw new ArgumentException("Invalid operation");
-            }
-        }
-
-        static double Add(double a, double b) => a + b;
-        static double Subtract(double a, double b) => a - b;
-        static double Multiply(double a, double b) => a * b;
-        static double Divide(double a, double b) => a / b;
-
-        static double GetValidNumber(string prompt)
-        {
-            while (true)
-            {
-                Console.Write(prompt);
-                if (double.TryParse(Console.ReadLine(), out double number))
-                {
-                    return number;
-                }
-                DisplayError("Please enter a valid number!");
-            }
-        }
-
-        static char GetValidOperation()
-        {
-            char[] allowedOperations = { '+', '-', '*', '/' };
-
-            while (true)
-            {
-                Console.Write($"Enter operation ({string.Join(", ", allowedOperations)}): ");
-                if (char.TryParse(Console.ReadLine(), out char operation) &&
-                    Array.Exists(allowedOperations, op => op == operation))
-                {
-                    return operation;
-                }
-
-                DisplayError($"Invalid operation! Allowed: {string.Join(", ", allowedOperations)}");
-            }
-        }
-
-        static bool IsDivisionByZero(char operation, double number)
-        {
-            return operation == '/' && number == 0;
-        }
-
+        // Strict validation: loop until Y/Yes or N/No
         static bool AskToContinue()
         {
-            Console.Write("\nDo you want another calculation? (y/n): ");
-            string response = Console.ReadLine()?.ToLower().Trim();
-            return response == "y" || response == "yes";
+            while (true)
+            {
+                Console.Write("\nDo you want another calculation? (Y/N): ");
+                string? response = Console.ReadLine();
+                response = response?.Trim().ToLowerInvariant();
+
+                if (response is "y" or "yes")
+                    return true;
+
+                if (response is "n" or "no")
+                    return false;
+
+                DisplayError("Please enter Y or N.");
+            }
         }
 
         static void DisplayWelcomeMessage()
         {
-            Console.Clear();
             Console.WriteLine("=== CALCULATOR ===");
             Console.WriteLine();
         }
@@ -112,7 +87,7 @@ namespace taska1
             Console.WriteLine($"\nResult: {a} {operation} {b} = {result}");
         }
 
-        static void DisplayError(string message)
+        internal static void DisplayError(string message)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"Error: {message}");

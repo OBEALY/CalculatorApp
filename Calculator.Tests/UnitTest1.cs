@@ -1,53 +1,65 @@
 ﻿using System;
-using System.Reflection;
 using Xunit;
 
 namespace taska1.Tests
 {
-    public class ProgramTests
+    public class CalculatorTests
     {
-        private static Type GetProgramType() =>
-            Type.GetType("taska1.Program, Calculator");
-
-        private static double Calculate(double a, double b, char op)
+        [Theory]
+        [InlineData(2, 3, 5)]
+        [InlineData(-1, 1, 0)]
+        [InlineData(0, 0, 0)]
+        public void Add_Works(double a, double b, double expected)
         {
-            var type = GetProgramType();
-            var method = type.GetMethod(
-                "Calculate",
-                BindingFlags.Static | BindingFlags.NonPublic
-            );
-            return (double)method.Invoke(null, new object[] { a, b, op });
+            Assert.Equal(expected, taska1.Calculator.Add(a, b));
+        }
+
+        [Theory]
+        [InlineData(3, 2, 1)]
+        [InlineData(-1, -1, 0)]
+        [InlineData(0, 5, -5)]
+        public void Subtract_Works(double a, double b, double expected)
+        {
+            Assert.Equal(expected, taska1.Calculator.Subtract(a, b));
+        }
+
+        [Theory]
+        [InlineData(2, 3, 6)]
+        [InlineData(-2, 3, -6)]
+        [InlineData(0, 10, 0)]
+        public void Multiply_Works(double a, double b, double expected)
+        {
+            Assert.Equal(expected, taska1.Calculator.Multiply(a, b));
+        }
+
+        [Theory]
+        [InlineData(6, 3, 2)]
+        [InlineData(-6, 3, -2)]
+        public void Divide_Works(double a, double b, double expected)
+        {
+            Assert.Equal(expected, taska1.Calculator.Divide(a, b));
         }
 
         [Fact]
-        public void Add_Works()
+        public void Divide_Throws_OnZero()
         {
-            Assert.Equal(5, Calculate(2, 3, '+'));
+            Assert.Throws<DivideByZeroException>(() => taska1.Calculator.Divide(5, 0));
+        }
+
+        [Theory]
+        [InlineData(2, 3, '+', 5)]
+        [InlineData(3, 2, '-', 1)]
+        [InlineData(2, 3, '*', 6)]
+        [InlineData(6, 3, '/', 2)]
+        public void Calculate_Works(double a, double b, char op, double expected)
+        {
+            Assert.Equal(expected, taska1.Calculator.Calculate(a, b, op));
         }
 
         [Fact]
-        public void Subtract_Works()
+        public void Calculate_InvalidOperation_Throws()
         {
-            Assert.Equal(1, Calculate(3, 2, '-'));
-        }
-
-        [Fact]
-        public void Multiply_Works()
-        {
-            Assert.Equal(6, Calculate(2, 3, '*'));
-        }
-
-        [Fact]
-        public void Divide_Works()
-        {
-            Assert.Equal(2, Calculate(6, 3, '/'));
-        }
-
-        [Fact]
-        public void DivideByZero_ReturnsPositiveInfinity()
-        {
-            double result = Calculate(5, 0, '/');
-            Assert.Equal(double.PositiveInfinity, result);
+            Assert.Throws<ArgumentException>(() => taska1.Calculator.Calculate(1, 2, '^'));
         }
     }
 }
